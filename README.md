@@ -39,3 +39,12 @@ The fixed sequence lets Groq interpret language while Python owns arithmetic, so
 ## Deploy on Vercel
 
 Import the GitHub repository as FastAPI. The entry point is `app.py`. The dashboard accepts a user-supplied Groq key over HTTPS. For API access with a centrally managed key, configure `GROQ_API_KEY` and `DEMO_ACCESS_TOKEN` as sensitive project variables and pass the token as `X-Demo-Token`. Optional `GROQ_MODEL` defaults to `llama-3.3-70b-versatile`.
+
+## Manager uploads
+
+- Set the planning date, then select any of the five supported CSV files in the dashboard. Download the sample beside each slot to see its columns. Empty slots use the bundled sample data. Use a consistent stock snapshot and ensure `stock.csv` on-order quantities reconcile with `open_orders.csv`.
+- Upload up to 15 emails as a JSON array or JSONL file, paste them, or choose stock-only mode. The original sample run still uses the 15 supplied emails and displays its evaluation score.
+- Select **Validate files** to check schemas, duplicate keys, reference integrity and PO values before the run. Sales coverage and overdue POs are flagged as warnings. Incomplete sales days count as zero.
+- Review and filter proposed actions, view the underlying inventory risks and inspect the email review queue. Export Markdown, an actions CSV or the JSONL audit.
+- Uploads apply only to the current run. Inventory CSVs stay within the planning service. Live Groq mode sends the submitted email and product lookup to Groq for extraction.
+- The API accepts CSV file contents under `files` keyed by filename and optional email contents under `email_file`. Use `POST /api/validate` before `POST /api/run`. The maximum is 850 KB per CSV and 2.5 MB across the CSVs together.

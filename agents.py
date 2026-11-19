@@ -304,9 +304,9 @@ def order_quantity(shortfall, supplier):
     return math.ceil(max(shortfall, int(supplier["moq_units"])) / pack) * pack
 
 
-def stock_analyst(as_of, emails, readings, stock, primary, vendors, orders, audit):
+def stock_analyst(as_of, emails, readings, stock, primary, vendors, orders, sales_rows, audit):
     sales = defaultdict(int)
-    for row in rows("sales_history.csv"):
+    for row in sales_rows:
         sold_on = date.fromisoformat(row["date"])
         if as_of - timedelta(days=28) <= sold_on < as_of:
             sales[row["warehouse"], row["sku"]] += int(row["units_sold"])
@@ -497,17 +497,18 @@ def daily_report(as_of, products, plan, reviews, notices, superseded, score, mod
     return "\n".join(lines) + "\n"
 
 
-def run(emails=None, as_of=TODAY, mode="offline", key=None):
-    sample = emails is None
-    if sample:
+def run(emails=None, as_of=TODAY, mode="offline", key=None, tables=None, dataset_summary=None):
+    sample = emails is None and dataset_summary is None and as_of == TODAY
+    if emails is None:
         emails = [Email.model_validate(item) for item in read_jsonl(DATA / "emails.jsonl")]
     elapsed = [email for email in emails if email.received_at.date() <= as_of]
-    products = {row["sku"]: row["product_name"] for row in rows("products.csv")}
-    stock = {(row["warehouse"], row["sku"]): row for row in rows("stock.csv")}
-    suppliers = rows("suppliers.csv")
+    read_table = rows if tables is None else tables.__getitem__
+    products = {row["sku"]: row["product_name"] for row in read_table("products.csv")}
+    stock = {(row["warehouse"], row["sku"]): row for row in read_table("stock.csv")}
+    suppliers = read_table("suppliers.csv")
     primary = {row["sku"]: row for row in suppliers if row["alternate_supplier_id"]}
     vendors = {(row["sku"], row["supplier_id"]): row for row in suppliers}
-    orders = {row["po_id"]: row for row in rows("open_orders.csv")}
+    orders = {row["po_id"]: row for row in read_table("open_orders.csv")}
     if len({email.email_id for email in elapsed}) != len(elapsed):
         raise ValueError("Email IDs must be unique")
 
@@ -522,16 +523,24 @@ def run(emails=None, as_of=TODAY, mode="offline", key=None):
             readings[email_id] = reading
             audit.extend(steps)
     findings, reviews, notices, superseded = stock_analyst(
-        as_of, elapsed, readings, stock, primary, vendors, orders, audit,
+        as_of, elapsed, readings, stock, primary, vendors, orders, read_table("sales_history.csv"), audit,
     )
     plan = planner(findings, primary, vendors, audit)
-    score = evaluation(readings) if sample and as_of >= TODAY else None
+    score = evaluation(readings) if sample else None
     report = daily_report(as_of, products, plan, reviews, notices, superseded, score, mode)
+    if dataset_summary:
+        metadata = ["", "## Dataset", *[
+            f"- {name}: {item['source']} ({item['rows']:,} rows)"
+            for name, item in dataset_summary["files"].items()
+        ]]
+        if dataset_summary["warnings"]:
+            metadata.extend(["", "### Data warnings", *[f"- {value}" for value in dataset_summary["warnings"]]])
+        report += "\n".join(metadata) + "\n"
     trace(audit, "Planner", {"mode": mode, "planning_date": str(as_of)}, {"markdown": report})
-    return {"mode": mode, "as_of": str(as_of), "evaluation": score,
+    return {"mode": mode, "as_of": str(as_of), "dataset": dataset_summary, "evaluation": score,
             "readings": {key: reading.model_dump(mode="json") for key, reading in readings.items()},
             "findings": [item.model_dump(mode="json") for item in findings if item.low or item.gap_units],
-            "actions": plan.model_dump(mode="json")["actions"], "email_review": reviews,
+            "actions": plan.model_dump(mode="json")["actions"], "products": products, "email_review": reviews,
             "superseded": superseded, "report": report, "audit": audit}
 
 

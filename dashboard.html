@@ -3,118 +3,318 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kaveri Distributors | Daily Operations</title>
+<title>Kaveri | Replenishment workbench</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f4f6fa;color:#182641;font:15px/1.55 system-ui,sans-serif}
-header{background:#102a46;color:white;padding:22px max(5vw,20px)}
-main{max-width:1150px;margin:auto;padding:34px 24px 56px}
-h1{font-size:clamp(31px,5vw,49px);line-height:1.1;margin:5px 0 12px;letter-spacing:-.045em}
-h2{margin:0 0 12px;font-size:22px}
-p{margin:0 0 16px;color:#4d5d73}
-header a{float:right;color:#cde7ff}
+:root{--navy:#102a46;--ink:#172b3e;--muted:#52677a;--green:#116453;--mint:#e3f3ed;--line:#d8e3ec;--fog:#f2f6f9;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--fog);color:var(--ink);font:15px/1.55 system-ui,sans-serif}
+header{background:var(--navy);color:#fff}header>div,main{max-width:1240px;margin:auto;padding:20px clamp(16px,4vw,44px)}
+header>div{display:flex;justify-content:space-between;align-items:center;gap:12px}header a{color:#bfe7da}
 .brand{font-weight:750;letter-spacing:.02em}
-.eyebrow{font-weight:700;color:#2b675d}
-.card{background:white;border:1px solid #dce5ed;border-radius:16px;padding:23px;margin-top:20px}
-.controls,.metrics{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-label{display:block;font-weight:650;margin:6px 0}
-select,input,textarea,button{font:inherit}
-select,input,textarea{width:100%;border:1px solid #aab9c8;border-radius:8px;padding:10px;color:#182641;background:#fff}
-textarea{margin-bottom:8px;min-height:100px;font:13px/1.5 ui-monospace,monospace}
-button{cursor:pointer;border:0;border-radius:8px;background:#126450;color:#fff;padding:10px 16px;font-weight:700;margin:6px 8px 0 0}
-button.secondary{background:#e8eff6;color:#182641}
-button:disabled{opacity:.55;cursor:wait}
-details{margin:14px 0 8px}
-summary{cursor:pointer;font-weight:650}
-.metric{background:#edf4f7;padding:13px;border-radius:9px}
-.metric strong{display:block;font-size:26px}
-pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f8fb;padding:18px;border-radius:9px;font:14px/1.65 ui-monospace,monospace}
+main{padding-top:34px;padding-bottom:56px}h1,h2,h3,p{margin:0}h1{font-size:clamp(29px,4.8vw,52px);line-height:1.05;letter-spacing:-.045em;margin:4px 0 11px}h2{font-size:24px;letter-spacing:-.02em}h3{font-size:17px}
+p,.muted,small{color:var(--muted)}.label{font-weight:700;color:var(--green);font-size:13px}.intro{max-width:750px}
+section.card{margin-top:22px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:clamp(14px,3vw,24px)}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.between{justify-content:space-between}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-top:15px}
+.control label,.field-label{display:block;font-weight:660;margin-bottom:5px}
+input,select,textarea,button{font:inherit}input,select,textarea{color:var(--ink);background:#fff}
+input:not([type=checkbox]),select,textarea{width:100%;padding:8px;border:1px solid #aab9c6;border-radius:7px}
+input[type=file]{font-size:13px}textarea{min-height:105px;font:13px/1.5 ui-monospace,monospace}
+button,.button{display:inline-block;font-weight:680;cursor:pointer;border:1px solid transparent;border-radius:7px;padding:8px 13px;text-decoration:none;background:var(--green);color:#fff}
+button.secondary,.button.secondary{background:#edf3f8;color:var(--navy);border-color:var(--line)}
+button:disabled{opacity:.6;cursor:wait}a{color:var(--green)}
+details{margin:15px 0;border-top:1px solid var(--line);padding-top:13px}summary{font-weight:700;cursor:pointer}
+.file-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:11px;margin-top:12px}
+.file{padding:11px;border:1px solid var(--line);border-radius:8px}.file .row{margin-bottom:7px;font-size:13px}
+.upload-help,.section-note{margin-top:8px;font-size:14px}.controls{margin-top:17px}
+#status,.notice{margin-top:13px}.notice{border-left:3px solid var(--green);padding:9px 12px;background:var(--mint)}
+.warning{border-left-color:#a76105;background:#fff3de}.error{color:#a02525;font-weight:650}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;margin:16px 0}
+.metric{padding:12px;background:var(--fog);border-radius:8px;color:var(--muted)}
+.metric b{display:block;color:var(--ink);font-size:27px;line-height:1.25}
+nav.tabs{border-bottom:1px solid var(--line);padding:5px 0;display:flex;flex-wrap:wrap;gap:5px}
+.tabs button{background:transparent;color:var(--muted)}.tabs button[aria-current=true]{background:var(--mint);color:var(--green)}
+.view{margin-top:15px}.filters{margin:0 0 13px;display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:8px;border-bottom:1px solid var(--line)}th{color:var(--muted);background:var(--fog);white-space:nowrap}
+td:nth-child(3){min-width:95px}td:last-child{min-width:150px}.empty{padding:12px;color:var(--muted)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--fog);padding:14px;border-radius:8px;font:13px/1.55 ui-monospace,monospace}
 [hidden]{display:none!important}
-#status{margin-top:10px;min-height:1.5em}
 </style>
 </head>
 <body>
-<header><span class="brand">Kaveri Distributors</span><a href="/docs">API docs</a></header>
+<header><div><span class="brand">Kaveri Distributors</span><a href="/docs">API docs</a></div></header>
 <main>
-<div class="eyebrow">Planning snapshot · 1 December 2026</div>
-<h1>Daily supply chain operations</h1>
-<p>Review supplier updates, projected shortages and replenishment recommendations across three warehouses.</p>
-<section class="card">
-<h2>Run the agents</h2>
-<div class="controls">
-<div><label for="mode">Email reader</label><select id="mode">
-<option value="offline">Offline demo</option><option value="groq">Groq live</option></select></div>
-<div id="credentials" hidden><label for="key">Groq API key</label>
-<input id="key" type="password" autocomplete="off" placeholder="Used for this request only"></div>
+<div class="label">Operations planning</div>
+<h1>Replenishment workbench</h1>
+<p class="intro">Upload an inventory snapshot and supplier emails to see projected shortages, recommended actions and items requiring approval.</p>
+<section class="card" aria-labelledby="run-title">
+<h2 id="run-title">Planning inputs</h2>
+<div class="grid">
+<div class="control"><label for="planningDate">Planning date</label><input id="planningDate" type="date" value="2026-12-01" min="1900-02-01" max="2100-12-31" required></div>
+<div class="control"><label for="mode">Email Reader</label><select id="mode"><option value="offline">Offline rules</option><option value="groq">Groq live</option></select></div>
+<div class="control" id="credentials" hidden><label for="key">Groq API key</label><input id="key" type="password" autocomplete="off" placeholder="Used for this run"></div>
 </div>
-<details><summary>Use new supplier emails</summary>
-<label for="emails">JSONL or a JSON array (up to 15 emails)</label>
-<textarea id="emails" spellcheck="false" placeholder='{"email_id":"LIVE-01","received_at":"2026-12-01T10:00:00+05:30","from_address":"dispatch@deccanstaples.example","subject":"PO-4462 delayed","body":"New ETA is 12 Dec 2026."}'></textarea>
-<p>Leave blank to evaluate the 15 supplied emails. Use a timestamp on or before the planning date.</p>
+<details id="csvPanel" open>
+<summary>Inventory and supplier CSV files</summary>
+<p class="upload-help">Each empty slot uses the sample file shown. Upload related files together when their warehouses, SKUs or purchase orders change.</p>
+<div class="file-grid" id="fileGrid"></div>
 </details>
+<details open>
+<summary>Supplier emails</summary>
+<div class="grid">
+<div class="control"><label for="emailSource">Email input</label><select id="emailSource"><option value="auto">Automatic</option><option value="file">Upload JSON or JSONL</option><option value="paste">Paste JSON or JSONL</option><option value="none">Stock check only</option></select></div>
+<div class="control" id="emailFileControl" hidden><label for="emailFile">Supplier email file</label><input id="emailFile" type="file" accept=".json,.jsonl,.ndjson,application/json"></div>
+</div>
+<div class="control" id="pasteControl" hidden><label for="emails">Supplier emails</label><textarea id="emails" spellcheck="false" placeholder='{"email_id":"LIVE-01","received_at":"2026-12-01T10:00:00+05:30","from_address":"dispatch@deccanstaples.example","subject":"PO-4462 delayed","body":"New ETA is 12 Dec 2026."}'></textarea></div>
+<p class="upload-help" id="emailHelp">Automatic uses the 15 sample emails for the original sample snapshot. Custom snapshots start with a stock-only check. <a href="/api/sample/emails.jsonl">Download sample emails</a></p>
+</details>
+<div class="row controls">
 <button id="run" type="button">Run planning</button>
+<button id="validate" type="button" class="secondary">Validate files</button>
+<button id="reset" type="button" class="secondary">Reset to sample</button>
+</div>
 <p id="status" role="status"></p>
+<div id="validation" class="notice" hidden></div>
 </section>
-<section id="results" class="card" hidden>
-<h2>Daily report</h2>
+<section id="results" class="card" aria-labelledby="report-title" hidden>
+<div class="row between">
+<div><h2 id="report-title">Daily operations plan</h2><p id="reportMeta"></p></div>
+<div class="row"><button id="reportDownload" class="secondary">Report .md</button><button id="csvDownload" class="secondary">Actions .csv</button><button id="auditDownload" class="secondary">Audit .jsonl</button></div>
+</div>
 <div class="metrics" id="metrics"></div>
-<button id="reportDownload" class="secondary">Download Markdown</button>
-<button id="auditDownload" class="secondary">Download audit log</button>
-<pre id="report"></pre>
+<nav class="tabs" aria-label="Plan sections">
+<button type="button" data-view="actions" aria-current="true">Actions</button>
+<button type="button" data-view="stock">Stock risks</button>
+<button type="button" data-view="reviews">Email review</button>
+<button type="button" data-view="report">Full report</button>
+</nav>
+<div id="actionsView" class="view">
+<div class="filters">
+<input id="search" type="search" aria-label="Filter products or suppliers" placeholder="Search product, SKU or supplier">
+<select id="warehouse" aria-label="Warehouse"><option value="">All warehouses</option></select>
+<select id="actionType" aria-label="Action type"><option value="">All actions</option><option value="reorder">Reorders</option><option value="transfer">Transfers</option><option value="approval">Needs approval</option><option value="review">Needs human review</option></select>
+</div>
+<div id="actionTable" class="table-wrap"></div>
+</div>
+<div id="stockView" class="view table-wrap" hidden></div>
+<div id="reviewsView" class="view table-wrap" hidden></div>
+<div id="reportView" class="view" hidden><pre id="report"></pre></div>
 </section>
 </main>
 <script>
 const el = id => document.getElementById(id);
+const sampleDate = '2026-12-01';
+const formats = new Map([
+  ['products.csv', 'Product catalogue'], ['stock.csv', 'Warehouse stock'],
+  ['sales_history.csv', 'Sales history'], ['suppliers.csv', 'Suppliers'],
+  ['open_orders.csv', 'Open purchase orders']
+]);
+const money = new Intl.NumberFormat('en-IN', {style:'currency',currency:'INR'});
+const integer = new Intl.NumberFormat('en-IN');
+const decimal = new Intl.NumberFormat('en-IN',{maximumFractionDigits:2});
 let latest;
-el('mode').addEventListener('change', () => {
-  el('credentials').hidden = el('mode').value !== 'groq';
-});
-function metric(label, value) {
-  const card = document.createElement('div');
-  card.className = 'metric';
-  const strong = document.createElement('strong');
-  strong.textContent = value;
-  card.append(strong, document.createTextNode(label));
+for (const [filename, label] of formats) {
+  const item = document.createElement('div');
+  item.className = 'file';
+  const head = document.createElement('div');
+  head.className = 'row between';
+  const name = Object.assign(document.createElement('label'), {textContent:label,htmlFor:filename});
+  const sample = Object.assign(document.createElement('a'), {href:'/api/sample/'+filename,textContent:'Sample CSV'});
+  head.append(name,sample);
+  const input = Object.assign(document.createElement('input'), {id:filename,type:'file',accept:'.csv,text/csv'});
+  item.append(head,input);
+  el('fileGrid').append(item);
+}
+function syncControls() {
+  el('credentials').hidden = el('mode').value !== 'groq' || el('emailSource').value === 'none';
+  el('emailFileControl').hidden = el('emailSource').value !== 'file';
+  el('pasteControl').hidden = el('emailSource').value !== 'paste';
+}
+el('mode').onchange = syncControls;
+el('emailSource').onchange = syncControls;
+function say(message, error=false) {
+  el('status').textContent = message;
+  el('status').classList.toggle('error',error);
+}
+function busy(value) {
+  for (const id of ['run','reset','validate']) el(id).disabled=value;
+}
+el('reset').onclick = () => {
+  for (const filename of formats.keys()) el(filename).value='';
+  el('planningDate').value=sampleDate;
+  el('mode').value='offline';
+  el('emailSource').value='auto';
+  for (const id of ['emailFile','emails','key','search','warehouse','actionType']) el(id).value='';
+  el('validation').hidden=true;
+  el('results').hidden=true;
+  latest=undefined;
+  syncControls();
+  say('Sample inputs restored.');
+};
+async function payload() {
+  if (!el('planningDate').reportValidity()) throw new Error('Enter a valid planning date.');
+  const data={mode:el('mode').value,planning_date:el('planningDate').value,files:{}};
+  let size=0;
+  for (const filename of formats.keys()) {
+    const file=el(filename).files[0];
+    if (!file) continue;
+    if (file.size>850000) throw new Error(filename+' exceeds 850 KB.');
+    size+=file.size;
+    if(size>2500000) throw new Error('Combined CSV uploads exceed 2.5 MB.');
+    data.files[filename]=await file.text();
+  }
+  const source=el('emailSource').value;
+  if (source==='none') data.emails=[];
+  if (source==='paste') {
+    data.email_file=el('emails').value.trim();
+    if(!data.email_file) throw new Error('Paste emails or select Stock check only.');
+  }
+  if (source==='file') {
+    const file=el('emailFile').files[0];
+    if(!file) throw new Error('Choose an email file.');
+    if(file.size>300000) throw new Error('The email file exceeds 300 KB.');
+    data.email_file=await file.text();
+  }
+  return data;
+}
+function showValidation(info) {
+  const panel=el('validation');
+  panel.replaceChildren();
+  const counts=document.createElement('strong');
+  counts.textContent=`${info.products} products · ${info.positions} stock positions · ${info.warehouses} warehouses · ${info.email_count} emails`;
+  const sources=document.createElement('div');
+  sources.textContent=Object.entries(info.files).map(([name,item])=>`${name} (${item.source}, ${integer.format(item.rows)} rows)`).join(' · ');
+  panel.append(counts,sources);
+  for(const warning of info.warnings) panel.append(Object.assign(document.createElement('p'),{textContent:warning}));
+  panel.classList.toggle('warning',info.warnings.length>0);
+  panel.hidden=false;
+}
+async function request(path, data, auth=false) {
+  const headers={'Content-Type':'application/json'};
+  if(auth && data.mode==='groq' && el('key').value.trim()) headers['X-Groq-Key']=el('key').value.trim();
+  const response=await fetch(path,{method:'POST',headers,body:JSON.stringify(data)});
+  if(response.status===413) throw new Error('The request exceeds the hosted upload limit. Use smaller files.');
+  const result=await response.json();
+  if(!response.ok) throw new Error(Array.isArray(result.detail)?result.detail.map(x=>x.msg).join('. '):result.detail);
+  return result;
+}
+function metric(title,value) {
+  const card=document.createElement('div');
+  card.className='metric';
+  card.append(Object.assign(document.createElement('b'),{textContent:value}),document.createTextNode(title));
   return card;
 }
-function download(name, content) {
-  const url = URL.createObjectURL(new Blob([content], {type: 'text/plain;charset=utf-8'}));
-  const link = Object.assign(document.createElement('a'), {href: url, download: name});
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-el('reportDownload').onclick = () => download('daily_report.md', latest.report);
-el('auditDownload').onclick = () => download('audit.jsonl', latest.audit.map(item => JSON.stringify(item)).join('\n') + '\n');
-el('run').onclick = async () => {
-  el('run').disabled = true;
-  el('results').hidden = true;
-  el('status').textContent = 'Checking supplier emails and stock…';
-  try {
-    const payload = {mode: el('mode').value};
-    const fresh = el('emails').value.trim();
-    if (fresh) payload.emails = fresh.startsWith('[') ? JSON.parse(fresh) : fresh.split(/\r?\n/).filter(x => x.trim()).map(x => JSON.parse(x));
-    const headers = {'Content-Type': 'application/json'};
-    if (payload.mode === 'groq' && el('key').value.trim()) headers['X-Groq-Key'] = el('key').value.trim();
-    const response = await fetch('/api/run', {method: 'POST', headers, body: JSON.stringify(payload)});
-    const data = await response.json();
-    if (!response.ok) throw new Error(Array.isArray(data.detail) ? data.detail.map(x => x.msg).join('. ') : data.detail);
-    latest = data;
-    const score = data.evaluation;
-    el('metrics').replaceChildren(
-      metric('Reorder recommendations', data.actions.filter(x => x.kind === 'reorder').length),
-      metric('Transfers', data.actions.filter(x => x.kind === 'transfer').length),
-      metric('Emails needing review', Object.keys(data.email_review).length),
-      metric('Extraction score', score ? `${score.correct}/${score.total}` : '—')
-    );
-    el('report').textContent = data.report;
-    el('status').textContent = `Completed using ${data.mode === 'groq' ? 'Groq live' : 'the offline reader'}.`;
-    el('results').hidden = false;
-  } catch (error) {
-    el('status').textContent = error.message || 'Could not run planning. Try again.';
-  } finally {
-    el('key').value = '';
-    el('run').disabled = false;
+function table(target,headers,rows,empty) {
+  const container=el(target);
+  container.replaceChildren();
+  if (!rows.length) {
+    container.append(Object.assign(document.createElement('p'),{className:'empty',textContent:empty}));
+    return;
   }
+  const grid=document.createElement('table');
+  const heading=grid.createTHead().insertRow();
+  for(const title of headers) heading.append(Object.assign(document.createElement('th'),{scope:'col',textContent:title}));
+  const body=grid.createTBody();
+  for(const values of rows){
+    const row=body.insertRow();
+    for(const value of values) row.insertCell().textContent=value;
+  }
+  container.append(grid);
+}
+function product(sku){return (latest.products[sku]||sku)+' · '+sku;}
+function filteredActions() {
+  const query=el('search').value.trim().toLowerCase();
+  const filter=el('actionType').value;
+  const warehouse=el('warehouse').value;
+  return latest.actions.filter(a => (!warehouse||a.warehouse===warehouse) &&
+    (!filter||a.kind===filter||(filter==='approval'&&a.needs_approval)||(filter==='review'&&a.needs_review)) &&
+    (!query||[product(a.sku),a.supplier_id,a.source].some(value=>value.toLowerCase().includes(query))));
+}
+function actionLabel(action) {
+  return {reorder:'Reorder',transfer:'Transfer',human_review:'Human review'}[action.kind];
+}
+function renderActions() {
+  table('actionTable',['Action','Product','Warehouse','Units','Supplier / source','Value','Decision'],
+    filteredActions().map(a=>[actionLabel(a),product(a.sku),a.warehouse,integer.format(a.units),a.supplier_id||a.source||'—',
+      a.value_inr==null?'—':money.format(Number(a.value_inr)),[
+        a.needs_approval?'Needs approval':'',a.needs_review?'Needs human review':'',a.reason
+      ].filter(Boolean).join(' · ')]),'No actions match these filters.');
+}
+for(const id of ['search','warehouse','actionType']) el(id).addEventListener('input',()=>{if(latest)renderActions();});
+for(const button of document.querySelectorAll('[data-view]')) {
+  button.onclick=()=>{
+    for(const tab of document.querySelectorAll('[data-view]')) {
+      const active=tab===button;
+      tab.setAttribute('aria-current',String(active));
+      el(tab.dataset.view+'View').hidden=!active;
+    }
+  };
+}
+function renderPlan(data) {
+  latest=data;
+  const score=data.evaluation;
+  el('reportMeta').textContent=data.as_of+' · '+(data.mode==='groq'?'Groq live':'Offline rules')+' · '+data.dataset.email_source+' email input';
+  const actions=data.actions;
+  const summary=[
+    ['Reorders',actions.filter(a=>a.kind==='reorder').length],
+    ['Transfers',actions.filter(a=>a.kind==='transfer').length],
+    ['Need approval',actions.filter(a=>a.needs_approval).length],
+    ['Emails for review',Object.keys(data.email_review).length]
+  ];
+  if(score) summary.push(['Sample extraction score',score.correct+'/'+score.total]);
+  el('metrics').replaceChildren(...summary.map(([name,value])=>metric(name,value)));
+  const warehouses=[...new Set(actions.map(a=>a.warehouse))].sort();
+  el('warehouse').replaceChildren(new Option('All warehouses',''),...warehouses.map(w=>new Option(w,w)));
+  el('search').value='';
+  el('actionType').value='';
+  renderActions();
+  table('stockView',['Product','Warehouse','On hand','On order','Days of cover','Reorder point','Shortage before ETA'],
+    [...data.findings].sort((a,b)=>b.gap_units-a.gap_units).map(f=>[product(f.sku),f.warehouse,integer.format(f.on_hand),
+      integer.format(f.on_order),f.days_cover==null?'—':decimal.format(f.days_cover),decimal.format(f.reorder_point),
+      f.gap_units?`${f.gap_units} units · ${f.risk_eta} · ${f.risk_po}`:'—']),'No low-stock positions or delayed-delivery shortages.');
+  table('reviewsView',['Email ID','Reason'],Object.entries(data.email_review),'No emails need human review.');
+  el('report').textContent=data.report;
+  document.querySelector('[data-view="actions"]').click();
+  el('results').hidden=false;
+}
+function download(name, content, mime='text/plain') {
+  const url=URL.createObjectURL(new Blob([content],{type:mime+';charset=utf-8'}));
+  Object.assign(document.createElement('a'),{href:url,download:name}).click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function csvCell(value) {
+  let text=String(value??'');
+  if(/^[\s]*[=+\-@]/.test(text)||/^[\t\r\n]/.test(text)) text="'"+text;
+  return '"'+text.replaceAll('"','""')+'"';
+}
+el('reportDownload').onclick=()=>download('daily_report_'+latest.as_of+'.md',latest.report,'text/markdown');
+el('auditDownload').onclick=()=>download('audit_'+latest.as_of+'.jsonl',latest.audit.map(row=>JSON.stringify(row)).join('\n')+'\n');
+el('csvDownload').onclick=()=>{
+  const headers=['Action','SKU','Product','Warehouse','Units','Supplier','Source warehouse','Value INR','Needs approval','Needs review','Reason'];
+  const data=latest.actions.map(a=>[actionLabel(a),a.sku,latest.products[a.sku],a.warehouse,a.units,a.supplier_id,a.source,
+    a.value_inr,a.needs_approval,a.needs_review,a.reason]);
+  download('actions_'+latest.as_of+'.csv','\ufeff'+[headers,...data].map(row=>row.map(csvCell).join(',')).join('\r\n')+'\r\n','text/csv');
+};
+el('validate').onclick=async()=>{
+  busy(true);
+  el('validation').hidden=true;
+  say('Validating the planning inputs…');
+  try{
+    showValidation(await request('/api/validate',await payload()));
+    say('Inputs are ready for planning.');
+  }catch(error){say(error.message,true);}finally{busy(false);}
+};
+el('run').onclick=async()=>{
+  busy(true);
+  el('results').hidden=true;
+  el('validation').hidden=true;
+  say('Checking supplier emails and inventory…');
+  try{
+    const result=await request('/api/run',await payload(),true);
+    showValidation(result.dataset);
+    renderPlan(result);
+    say('Planning completed.');
+  }catch(error){say(error.message,true);}finally{el('key').value='';busy(false);}
 };
 </script>
 </body>
