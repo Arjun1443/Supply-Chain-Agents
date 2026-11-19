@@ -1,0 +1,101 @@
+supplier_id,supplier_name,sku,lead_time_days,moq_units,case_pack,unit_price_inr,approved,alternate_supplier_id
+SUP-02,Krishna Valley Oils,SKU-001,4,300,12,145,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-001,2,300,12,162,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-002,4,100,4,520,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-002,2,100,4,582,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-003,4,60,2,410,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-003,2,60,2,459,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-004,4,300,20,135,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-004,2,300,20,151,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-005,4,500,25,44,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-005,2,500,25,49,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-006,4,500,25,22,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-006,2,500,25,25,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-007,4,300,20,128,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-007,2,300,20,143,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-008,4,300,20,95,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-008,2,300,20,106,yes,
+SUP-02,Krishna Valley Oils,SKU-009,4,240,12,190,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-009,2,240,12,213,yes,
+SUP-02,Krishna Valley Oils,SKU-010,4,240,12,165,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-010,2,240,12,185,yes,
+SUP-04,Nandi Beverages Distribution,SKU-011,3,240,24,230,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-011,3,240,24,218,no,
+SUP-04,Nandi Beverages Distribution,SKU-012,3,240,48,260,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-012,3,240,48,247,no,
+SUP-04,Nandi Beverages Distribution,SKU-013,3,200,20,310,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-013,3,200,20,294,no,
+SUP-05,Sahyadri Snacks Co,SKU-014,3,360,12,95,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-014,2,360,12,106,yes,
+SUP-05,Sahyadri Snacks Co,SKU-015,3,480,24,40,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-015,2,480,24,45,yes,
+SUP-05,Sahyadri Snacks Co,SKU-016,3,600,30,45,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-016,2,600,30,50,yes,
+SUP-05,Sahyadri Snacks Co,SKU-017,3,400,20,90,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-017,2,400,20,101,yes,
+SUP-05,Sahyadri Snacks Co,SKU-018,3,200,8,150,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-018,2,200,8,168,yes,
+SUP-05,Sahyadri Snacks Co,SKU-019,3,240,12,120,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-019,2,240,12,134,yes,
+SUP-03,Malabar Spice Traders,SKU-020,5,240,24,110,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-020,3,240,24,104,no,
+SUP-03,Malabar Spice Traders,SKU-021,5,500,50,52,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-021,3,500,50,49,no,
+SUP-03,Malabar Spice Traders,SKU-022,5,500,50,64,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-022,3,500,50,61,no,
+SUP-03,Malabar Spice Traders,SKU-023,5,500,50,46,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-023,3,500,50,44,no,
+SUP-03,Malabar Spice Traders,SKU-024,5,400,50,78,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-024,3,400,50,74,no,
+SUP-01,Deccan Staples Pvt Ltd,SKU-025,4,400,20,58,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-025,2,400,20,65,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-026,4,400,20,52,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-026,2,400,20,58,yes,
+SUP-01,Deccan Staples Pvt Ltd,SKU-027,4,300,20,70,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-027,2,300,20,78,yes,
+SUP-06,Godavari Foods Ltd,SKU-028,5,120,12,560,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-028,3,120,12,532,no,
+SUP-06,Godavari Foods Ltd,SKU-029,5,240,24,240,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-029,3,240,24,228,no,
+SUP-01,Deccan Staples Pvt Ltd,SKU-030,4,300,20,68,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-030,2,300,20,76,yes,
+SUP-06,Godavari Foods Ltd,SKU-031,5,192,24,210,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-031,3,192,24,200,no,
+SUP-06,Godavari Foods Ltd,SKU-032,5,144,12,320,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-032,3,144,12,304,no,
+SUP-06,Godavari Foods Ltd,SKU-033,5,180,12,190,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-033,3,180,12,180,no,
+SUP-07,Shubh Home Care,SKU-034,6,160,8,230,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-034,2,160,8,258,yes,
+SUP-07,Shubh Home Care,SKU-035,6,480,24,60,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-035,2,480,24,67,yes,
+SUP-07,Shubh Home Care,SKU-036,6,240,12,150,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-036,2,240,12,168,yes,
+SUP-07,Shubh Home Care,SKU-037,6,240,12,180,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-037,2,240,12,202,yes,
+SUP-07,Shubh Home Care,SKU-038,6,240,12,160,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-038,2,240,12,179,yes,
+SUP-08,Neelam Personal Care,SKU-039,4,288,24,140,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-039,3,288,24,133,no,
+SUP-08,Neelam Personal Care,SKU-040,4,240,24,230,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-040,3,240,24,218,no,
+SUP-08,Neelam Personal Care,SKU-041,4,480,48,105,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-041,3,480,48,100,no,
+SUP-08,Neelam Personal Care,SKU-042,4,240,24,120,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-042,3,240,24,114,no,
+SUP-08,Neelam Personal Care,SKU-043,4,240,12,130,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-043,3,240,12,124,no,
+SUP-02,Krishna Valley Oils,SKU-044,4,240,24,150,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-044,2,240,24,168,yes,
+SUP-08,Neelam Personal Care,SKU-045,4,240,24,160,yes,SUP-09
+SUP-09,QuickMart Wholesale,SKU-045,3,240,24,152,no,
+SUP-07,Shubh Home Care,SKU-046,6,600,30,55,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-046,2,600,30,62,yes,
+SUP-07,Shubh Home Care,SKU-047,6,400,40,90,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-047,2,400,40,101,yes,
+SUP-07,Shubh Home Care,SKU-048,6,240,12,135,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-048,2,240,12,151,yes,
+SUP-07,Shubh Home Care,SKU-049,6,400,40,75,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-049,2,400,40,84,yes,
+SUP-07,Shubh Home Care,SKU-050,6,1000,50,20,yes,SUP-10
+SUP-10,Vindhya General Supplies,SKU-050,2,1000,50,22,yes,

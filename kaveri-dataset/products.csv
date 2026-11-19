@@ -1,0 +1,51 @@
+sku,product_name,category
+SKU-001,Sunflower Oil 1 L,oils
+SKU-002,Basmati Rice 5 kg,staples
+SKU-003,Whole Wheat Atta 10 kg,staples
+SKU-004,Toor Dal 1 kg,staples
+SKU-005,Sugar 1 kg,staples
+SKU-006,Iodised Salt 1 kg,staples
+SKU-007,Moong Dal 1 kg,staples
+SKU-008,Chana Dal 1 kg,staples
+SKU-009,Groundnut Oil 1 L,oils
+SKU-010,Mustard Oil 1 L,oils
+SKU-011,Tea Leaves 500 g,beverages
+SKU-012,Instant Coffee 100 g,beverages
+SKU-013,Filter Coffee Powder 500 g,beverages
+SKU-014,Glucose Biscuits 800 g,snacks
+SKU-015,Cream Biscuits 300 g,snacks
+SKU-016,Salted Chips 150 g,snacks
+SKU-017,Namkeen Mix 400 g,snacks
+SKU-018,Instant Noodles 12-pack,snacks
+SKU-019,Tomato Ketchup 1 kg,snacks
+SKU-020,Mango Pickle 500 g,spices
+SKU-021,Turmeric Powder 200 g,spices
+SKU-022,Red Chilli Powder 200 g,spices
+SKU-023,Coriander Powder 200 g,spices
+SKU-024,Garam Masala 100 g,spices
+SKU-025,Poha 1 kg,staples
+SKU-026,Rava 1 kg,staples
+SKU-027,Vermicelli 900 g,staples
+SKU-028,Ghee 1 L,breakfast
+SKU-029,Milk Powder 500 g,breakfast
+SKU-030,Jaggery 1 kg,staples
+SKU-031,Honey 500 g,breakfast
+SKU-032,Corn Flakes 875 g,breakfast
+SKU-033,Oats 1 kg,breakfast
+SKU-034,Detergent Powder 2 kg,household
+SKU-035,Dishwash Bar 3-pack,household
+SKU-036,Dishwash Liquid 750 ml,household
+SKU-037,Floor Cleaner 1 L,household
+SKU-038,Toilet Cleaner 1 L,household
+SKU-039,Bath Soap 4-pack,personal_care
+SKU-040,Shampoo 340 ml,personal_care
+SKU-041,Toothpaste 150 g,personal_care
+SKU-042,Toothbrush 4-pack,personal_care
+SKU-043,Hand Wash 750 ml,personal_care
+SKU-044,Coconut Oil 500 ml,oils
+SKU-045,Talcum Powder 300 g,personal_care
+SKU-046,Mosquito Coil 10-pack,household
+SKU-047,Garbage Bags 30-pack,household
+SKU-048,Tissue Rolls 4-pack,household
+SKU-049,Agarbatti 100 sticks,household
+SKU-050,Matchboxes 10-pack,household

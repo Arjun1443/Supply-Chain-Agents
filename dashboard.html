@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaveri Distributors | Daily Operations</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fa;color:#182641;font:15px/1.55 system-ui,sans-serif}
+header{background:#102a46;color:white;padding:22px max(5vw,20px)}
+main{max-width:1150px;margin:auto;padding:34px 24px 56px}
+h1{font-size:clamp(31px,5vw,49px);line-height:1.1;margin:5px 0 12px;letter-spacing:-.045em}
+h2{margin:0 0 12px;font-size:22px}
+p{margin:0 0 16px;color:#4d5d73}
+header a{float:right;color:#cde7ff}
+.brand{font-weight:750;letter-spacing:.02em}
+.eyebrow{font-weight:700;color:#2b675d}
+.card{background:white;border:1px solid #dce5ed;border-radius:16px;padding:23px;margin-top:20px}
+.controls,.metrics{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+label{display:block;font-weight:650;margin:6px 0}
+select,input,textarea,button{font:inherit}
+select,input,textarea{width:100%;border:1px solid #aab9c8;border-radius:8px;padding:10px;color:#182641;background:#fff}
+textarea{margin-bottom:8px;min-height:100px;font:13px/1.5 ui-monospace,monospace}
+button{cursor:pointer;border:0;border-radius:8px;background:#126450;color:#fff;padding:10px 16px;font-weight:700;margin:6px 8px 0 0}
+button.secondary{background:#e8eff6;color:#182641}
+button:disabled{opacity:.55;cursor:wait}
+details{margin:14px 0 8px}
+summary{cursor:pointer;font-weight:650}
+.metric{background:#edf4f7;padding:13px;border-radius:9px}
+.metric strong{display:block;font-size:26px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f8fb;padding:18px;border-radius:9px;font:14px/1.65 ui-monospace,monospace}
+[hidden]{display:none!important}
+#status{margin-top:10px;min-height:1.5em}
+</style>
+</head>
+<body>
+<header><span class="brand">Kaveri Distributors</span><a href="/docs">API docs</a></header>
+<main>
+<div class="eyebrow">Planning snapshot · 1 December 2026</div>
+<h1>Daily supply chain operations</h1>
+<p>Review supplier updates, projected shortages and replenishment recommendations across three warehouses.</p>
+<section class="card">
+<h2>Run the agents</h2>
+<div class="controls">
+<div><label for="mode">Email reader</label><select id="mode">
+<option value="offline">Offline demo</option><option value="groq">Groq live</option></select></div>
+<div id="credentials" hidden><label for="key">Groq API key</label>
+<input id="key" type="password" autocomplete="off" placeholder="Used for this request only"></div>
+</div>
+<details><summary>Use new supplier emails</summary>
+<label for="emails">JSONL or a JSON array (up to 15 emails)</label>
+<textarea id="emails" spellcheck="false" placeholder='{"email_id":"LIVE-01","received_at":"2026-12-01T10:00:00+05:30","from_address":"dispatch@deccanstaples.example","subject":"PO-4462 delayed","body":"New ETA is 12 Dec 2026."}'></textarea>
+<p>Leave blank to evaluate the 15 supplied emails. Use a timestamp on or before the planning date.</p>
+</details>
+<button id="run" type="button">Run planning</button>
+<p id="status" role="status"></p>
+</section>
+<section id="results" class="card" hidden>
+<h2>Daily report</h2>
+<div class="metrics" id="metrics"></div>
+<button id="reportDownload" class="secondary">Download Markdown</button>
+<button id="auditDownload" class="secondary">Download audit log</button>
+<pre id="report"></pre>
+</section>
+</main>
+<script>
+const el = id => document.getElementById(id);
+let latest;
+el('mode').addEventListener('change', () => {
+  el('credentials').hidden = el('mode').value !== 'groq';
+});
+function metric(label, value) {
+  const card = document.createElement('div');
+  card.className = 'metric';
+  const strong = document.createElement('strong');
+  strong.textContent = value;
+  card.append(strong, document.createTextNode(label));
+  return card;
+}
+function download(name, content) {
+  const url = URL.createObjectURL(new Blob([content], {type: 'text/plain;charset=utf-8'}));
+  const link = Object.assign(document.createElement('a'), {href: url, download: name});
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+el('reportDownload').onclick = () => download('daily_report.md', latest.report);
+el('auditDownload').onclick = () => download('audit.jsonl', latest.audit.map(item => JSON.stringify(item)).join('\n') + '\n');
+el('run').onclick = async () => {
+  el('run').disabled = true;
+  el('results').hidden = true;
+  el('status').textContent = 'Checking supplier emails and stock…';
+  try {
+    const payload = {mode: el('mode').value};
+    const fresh = el('emails').value.trim();
+    if (fresh) payload.emails = fresh.startsWith('[') ? JSON.parse(fresh) : fresh.split(/\r?\n/).filter(x => x.trim()).map(x => JSON.parse(x));
+    const headers = {'Content-Type': 'application/json'};
+    if (payload.mode === 'groq' && el('key').value.trim()) headers['X-Groq-Key'] = el('key').value.trim();
+    const response = await fetch('/api/run', {method: 'POST', headers, body: JSON.stringify(payload)});
+    const data = await response.json();
+    if (!response.ok) throw new Error(Array.isArray(data.detail) ? data.detail.map(x => x.msg).join('. ') : data.detail);
+    latest = data;
+    const score = data.evaluation;
+    el('metrics').replaceChildren(
+      metric('Reorder recommendations', data.actions.filter(x => x.kind === 'reorder').length),
+      metric('Transfers', data.actions.filter(x => x.kind === 'transfer').length),
+      metric('Emails needing review', Object.keys(data.email_review).length),
+      metric('Extraction score', score ? `${score.correct}/${score.total}` : '—')
+    );
+    el('report').textContent = data.report;
+    el('status').textContent = `Completed using ${data.mode === 'groq' ? 'Groq live' : 'the offline reader'}.`;
+    el('results').hidden = false;
+  } catch (error) {
+    el('status').textContent = error.message || 'Could not run planning. Try again.';
+  } finally {
+    el('key').value = '';
+    el('run').disabled = false;
+  }
+};
+</script>
+</body>
+</html>
